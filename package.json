@@ -1,0 +1,34 @@
+{
+  "name": "devconnecter",
+  "version": "1.0.0",
+  "description": "Social network for developers",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hbao0421/devconnecter.git"
+  },
+  "author": "Han Bao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hbao0421/devconnecter/issues"
+  },
+  "homepage": "https://github.com/hbao0421/devconnecter#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.8",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "gravatar": "^1.8.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.3",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.20"
+  }
+}
