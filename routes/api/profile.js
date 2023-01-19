@@ -88,4 +88,15 @@ router.post('/',[auth,[
             res.status(500).send('Server Error');
         }
 })
+
+//get all profile
+router.get('/',async(req,res)=>{
+    try{
+        const profile = await Profile.find().populate('user',['name','avatar']);
+        res.json(profile);
+    }catch(err){
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+})
 module.exports = router;
