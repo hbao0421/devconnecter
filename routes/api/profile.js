@@ -73,9 +73,19 @@ router.post('/',[auth,[
         if(linkedin){
             profileFields.social.linkedin = linkedin;
         }
-
-        console.log(profileFields.social.linkedin);
-        res.send('Hello');
-        
+        try{
+            let profile = await Profile.findOne({user:req.user.id});
+            if(profile){
+                //update
+                profile = await Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{new:true});
+                return res.json(profile);
+            }
+            profile = new Profile(profileFields);
+            await profile.save();
+            res.json(profile);
+        }catch(err){
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
 })
 module.exports = router;
