@@ -53,7 +53,28 @@ router.post('/',[auth,[
         if(skills){
             profileFields.skills = skills.split(',').map(skill=>skill.trim());
         }
-        console.log(profileFields.skills);
+        //Build social object
+        profileFields.social = {};
+        if(youtube){
+            profileFields.social.youtube = youtube;
+        }
+        if(facebook){
+            profileFields.social.facebook = facebook;
+        }
+
+        if(twitter){
+            profileFields.social.twitter = twitter;
+        }
+
+        if(instergram){
+            profileFields.social.instergram = instergram;
+        }
+
+        if(linkedin){
+            profileFields.social.linkedin = linkedin;
+        }
+
+        console.log(profileFields.social.linkedin);
         res.send('Hello');
         
 })
