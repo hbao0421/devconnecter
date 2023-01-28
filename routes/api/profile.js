@@ -2,6 +2,7 @@ const express = require('../../node_modules/express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
+const User = require('../../models/User');
 const {body, validationResult} = require('express-validator');
 
 //get current user's profile
@@ -113,6 +114,19 @@ router.get('/user/:user_id',async(req,res)=>{
         if(err.kind =='ObjectId'){
             return res.status(400).json({msg:'Profile not found'});
         }
+        res.status(500).send('Server Error');
+    }
+})
+
+//delete profile by user id
+router.delete('/',auth,async(req,res)=>{
+    try{
+
+        await Profile.findOneAndRemove({user:req.user.id});
+        await User.findOneAndRemove({_id:req.user.id});
+        res.json({msg:'User deleted'});
+    }catch(err){
+        console.log(err.message);
         res.status(500).send('Server Error');
     }
 })
