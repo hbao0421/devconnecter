@@ -88,7 +88,7 @@ router.post('/',[auth,[
             console.error(err.message);
             res.status(500).send('Server Error');
         }
-})
+});
 
 //get all profile
 router.get('/',async(req,res)=>{
@@ -99,7 +99,7 @@ router.get('/',async(req,res)=>{
         console.log(err.message);
         res.status(500).send('Server Error');
     }
-})
+});
 
 //get profile by user id
 router.get('/user/:user_id',async(req,res)=>{
@@ -116,12 +116,11 @@ router.get('/user/:user_id',async(req,res)=>{
         }
         res.status(500).send('Server Error');
     }
-})
+});
 
 //delete profile by user id
 router.delete('/',auth,async(req,res)=>{
     try{
-
         await Profile.findOneAndRemove({user:req.user.id});
         await User.findOneAndRemove({_id:req.user.id});
         res.json({msg:'User deleted'});
@@ -129,5 +128,29 @@ router.delete('/',auth,async(req,res)=>{
         console.log(err.message);
         res.status(500).send('Server Error');
     }
-})
+});
+
+//add experience
+router.put('/experience',[auth,[
+    body('title','Title is required').not().isEmpty(),
+    body('company','Company is required').not().isEmpty(),
+    body('from','From date is required').not().isEmpty(),
+]
+],async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+    const {title,company,location,from,to,current,description} = req.body;
+    const newExp = {title,company,location,from,to,current,description};
+    try{
+        const profile = await Profile.findOne({user:req.user.id});
+        profile.experience.unshift(newExp);//push to to beginning
+        await profile.save();
+        res.json(profile);
+    }catch(err){
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 module.exports = router;
