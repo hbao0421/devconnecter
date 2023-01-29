@@ -1,4 +1,6 @@
 {
     "mongoURI":"mongodb+srv://hbao:Bh023014@devconnecter.oz1xx14.mongodb.net/?retryWrites=true&w=majority",
-    "jwtSecret":"hbaoSecret"
+    "jwtSecret":"hbaoSecret",
+    "githubClientId":"de52426e4cc91c06f2c2",
+    "githubSecret":"05097f15e2578bb250268bf85f08408965eedea5"
 }
