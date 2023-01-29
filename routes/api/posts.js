@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const { post } = require('request');
 
 
 router.post('/',[auth,[
@@ -41,4 +42,41 @@ router.get('/',auth,async(req,res)=>{
     }
 });
 
+//get posts by id
+router.get('/:id',auth,async(req,res)=>{
+    try{
+        const posts = await Post.findById(req.params.id);
+        if(!posts){
+            return res.status(404).json({msg:'Post not found'});
+        }
+        res.json(posts);
+    }catch(err){
+        console.error(err.message);
+        if(err.kind==='ObejctId'){
+            return res.status(404).json({msg:'Post not found'});
+        }
+        res.status(500).send('Server Error');
+    }
+});
+
+//delete posts by id
+router.delete('/:id',auth,async(req,res)=>{
+    try{
+        const post = await Post.findById(req.params.id);
+        if(!post){
+            return res.status(404).json({msg:'Post not found'});
+        }
+        if(post.user.toString()!==req.user.id){
+            return res.status(401).json({msg:'User not authorized'});
+        }
+        await post.remove();
+        res.json({msg:'Posts removed'});
+    }catch(err){
+        console.error(err.message);
+        if(err.kind==='ObejctId'){
+            return res.status(404).json({msg:'Post not found'});
+        }
+        res.status(500).send('Server Error');
+    }
+});
 module.exports = router;
