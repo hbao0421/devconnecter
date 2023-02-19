@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
 import {Provider} from 'react-redux';
 import store from './store';
+import Alert from './components/layout/Alert';
 
 const App=()=> (
   <Provider store={store}>
@@ -17,6 +18,7 @@ const App=()=> (
           <Route path='/' element={<Landing/>}/>
         </Routes>
         <section className='container'>
+          <Alert/>
           <Routes>
             <Route exact path='/register' element={<Register/>}></Route>
             <Route exact path='/login' element={<Login/>}></Route>
