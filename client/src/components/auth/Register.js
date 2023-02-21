@@ -1,17 +1,19 @@
-import React,{Fragment,useState} from 'react'
+import React,{Fragment,useState,useEffect} from 'react'
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link,useNavigate } from 'react-router-dom';
 import {setAlert} from '../../actions/alert';
 import {register} from '../../actions/auth';
 import propTypes from 'prop-types';
 
-const Register = ({setAlert,register}) => {
+const Register = ({setAlert,register,isAuthenticated}) => {
   const [fromData,setFormData] = useState({
     name:'',
     email:'',
     password:'',
     password2:''
   });
+
+  const navigate = useNavigate();
 
   const {name,email,password,password2} = fromData;
 
@@ -24,6 +26,12 @@ const Register = ({setAlert,register}) => {
       register({name,email,password});
     }
   }
+
+  useEffect(() => {
+    if (isAuthenticated){
+       return navigate("/dashboard");
+    }
+ },[isAuthenticated]);
 
   return <Fragment>
         <h1 className="large text-primary">Sign Up</h1>
@@ -66,9 +74,14 @@ const Register = ({setAlert,register}) => {
 
   Register.propTypes = {
     setAlert:propTypes.func.isRequired,
-    register:propTypes.func.isRequired
+    register:propTypes.func.isRequired,
+    isAuthenticated:propTypes.bool,
   }
+
+  const mapStateToProps = state =>({
+    isAuthenticated:state.auth.isAuthenticated
+  });
     
 
 
-export default connect(null,{setAlert,register})(Register);
+export default connect(mapStateToProps,{setAlert,register})(Register);

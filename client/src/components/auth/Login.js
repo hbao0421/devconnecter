@@ -1,10 +1,10 @@
-import React,{Fragment,useState} from 'react'
-import {Link} from 'react-router-dom';
+import React,{Fragment,useState,useEffect} from 'react'
+import {Link,useNavigate} from 'react-router-dom';
 import {connect} from 'react-redux';
 import proptype from 'prop-types';
 import { login } from '../../actions/auth';
 
-const Login = ({login}) => {
+const Login = ({login,isAuthenticated}) => {
   const [fromData,setFormData] = useState({
     email:'',
     password:'',
@@ -17,6 +17,13 @@ const Login = ({login}) => {
     e.preventDefault();
     login(email,password);
   }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated){
+       return navigate("/dashboard");
+    }
+ },[isAuthenticated]);
 
   return <Fragment>
         <h1 className="large text-primary">Sign Up</h1>
@@ -43,7 +50,12 @@ const Login = ({login}) => {
   };
     
 Login.prototype={
-  login:proptype.func.isRequired
+  login:proptype.func.isRequired,
+  isAuthenticated:proptype.bool,
 }
 
-export default connect(null,{login})(Login);
+const mapStateToProps = state =>({
+  isAuthenticated:state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps,{login})(Login);
