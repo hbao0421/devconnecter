@@ -1,6 +1,6 @@
-import React,{Fragment,useState,useEffect} from 'react'
+import React,{Fragment,useState} from 'react'
 import {connect} from 'react-redux';
-import {Link,useNavigate } from 'react-router-dom';
+import {Link,Redirect } from 'react-router-dom';
 import {setAlert} from '../../actions/alert';
 import {register} from '../../actions/auth';
 import propTypes from 'prop-types';
@@ -12,8 +12,6 @@ const Register = ({setAlert,register,isAuthenticated}) => {
     password:'',
     password2:''
   });
-
-  const navigate = useNavigate();
 
   const {name,email,password,password2} = fromData;
 
@@ -27,11 +25,9 @@ const Register = ({setAlert,register,isAuthenticated}) => {
     }
   }
 
-  useEffect(() => {
-    if (isAuthenticated){
-       return navigate("/dashboard");
-    }
- },[isAuthenticated]);
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />
+}
 
   return <Fragment>
         <h1 className="large text-primary">Sign Up</h1>

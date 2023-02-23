@@ -1,5 +1,5 @@
-import React,{Fragment,useState,useEffect} from 'react'
-import {Link,useNavigate} from 'react-router-dom';
+import React,{Fragment,useState} from 'react'
+import {Link,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import proptype from 'prop-types';
 import { login } from '../../actions/auth';
@@ -17,16 +17,12 @@ const Login = ({login,isAuthenticated}) => {
     e.preventDefault();
     login(email,password);
   }
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated){
-       return navigate("/dashboard");
-    }
- },[isAuthenticated]);
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />
+}
 
   return <Fragment>
-        <h1 className="large text-primary">Sign Up</h1>
+        <h1 className="large text-primary">Sign In</h1>
         <p className="lead"><i className="fas fa-user"></i> Sign in Your Account</p>
         <form className="form" onSubmit={e=>onSubmit(e)}>
           <div className="form-group">
