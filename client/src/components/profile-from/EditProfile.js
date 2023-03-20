@@ -37,7 +37,7 @@ const EditProfile = ({profile:{profile,loading},createProfile,getCurrentProfile,
       youtube: loading || !profile.social? ' ': profile.social.youtube,
       instergram: loading || !profile.social? ' ': profile.social.instergram
     });
-  },[loading]);
+  },[loading,getCurrentProfile]);
 
   const {
     company,
@@ -147,7 +147,7 @@ const EditProfile = ({profile:{profile,loading},createProfile,getCurrentProfile,
 
         <div className="form-group social-input">
           <i className="fab fa-instagram fa-2x"></i>
-          <input type="text" placeholder="Instagram URL" name="instagram" value={instergram} onChange={e=>onChange(e)}/>
+          <input type="text" placeholder="Instagram URL" name="instergram" value={instergram} onChange={e=>onChange(e)}/>
         </div>
         </Fragment>}
 
